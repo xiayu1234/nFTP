@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class FtpUtil {
+public class ClientUtil {
 	
 	private String address = "127.0.0.1";
 	private int port ;
@@ -47,9 +47,9 @@ public class FtpUtil {
 	}
 
 
-	public void login (String nickName) throws 
+	public  void login () throws 
 	UnknownHostException, IOException{
-		socket = new Socket(address,port);	
+		Socket socket = new Socket(address,port);	
 	}
 	public void upLoadFile (File file,String MD5){
 				

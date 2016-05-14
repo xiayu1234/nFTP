@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -21,6 +22,10 @@ public class FtpFrame extends JFrame {
 	private JLabel labelFilename;
 	private JLabel label1;
 	String MD5 = "null";
+	private JButton Btnlogin;
+	
+	
+	ClientUtil clientUtil = new ClientUtil();
 
 	public static void main(String[] args) {
 		FtpFrame frame = new FtpFrame();
@@ -42,12 +47,9 @@ public class FtpFrame extends JFrame {
 		panel.add(choseBtn);
 
 		sendBtn = new JButton("上传");
-		sendBtn.setBounds(130, 248, 93, 23);
+		sendBtn.setBounds(251, 248, 93, 23);
 		panel.add(sendBtn);
 
-		JButton cancleBtn = new JButton("取消");
-		cancleBtn.setBounds(265, 248, 93, 23);
-		panel.add(cancleBtn);
 
 		labelFilename = new JLabel("New label");
 		labelFilename.setBounds(198, 134, 117, 15);
@@ -56,6 +58,24 @@ public class FtpFrame extends JFrame {
 		label1 = new JLabel("已选择的文件");
 		label1.setBounds(95, 134, 93, 15);
 		panel.add(label1);
+		
+		Btnlogin = new JButton("登陆");
+		Btnlogin.setBounds(95, 248, 93, 23);
+		panel.add(Btnlogin);
+		
+		Btnlogin.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					clientUtil.login();
+					System.out.println("客户端已经登陆");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 
 		choseBtn.addActionListener(new ActionListener() {
 			
@@ -75,7 +95,7 @@ public class FtpFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				clientUtil.upLoadFile(file, MD5);
 			}
 		});
 
