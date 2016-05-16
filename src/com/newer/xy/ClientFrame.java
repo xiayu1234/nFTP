@@ -13,7 +13,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class FtpFrame extends JFrame {
+public class ClientFrame extends JFrame {
 
 	private JPanel panel;
 	private JButton choseBtn;
@@ -28,12 +28,12 @@ public class FtpFrame extends JFrame {
 	ClientUtil clientUtil = new ClientUtil();
 
 	public static void main(String[] args) {
-		FtpFrame frame = new FtpFrame();
+		ClientFrame frame = new ClientFrame();
 	}
 
-	public FtpFrame() {
+	public ClientFrame() {
 
-		setSize(480, 320);
+		setSize(240, 160);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
@@ -43,24 +43,24 @@ public class FtpFrame extends JFrame {
 		panel.setLayout(null);
 
 		choseBtn = new JButton("选择上传的文件");
-		choseBtn.setBounds(116, 10, 228, 23);
+		choseBtn.setBounds(29, 10, 152, 23);
 		panel.add(choseBtn);
 
 		sendBtn = new JButton("上传");
-		sendBtn.setBounds(251, 248, 93, 23);
+		sendBtn.setBounds(123, 82, 93, 23);
 		panel.add(sendBtn);
 
 
 		labelFilename = new JLabel("New label");
-		labelFilename.setBounds(198, 134, 117, 15);
+		labelFilename.setBounds(113, 57, 103, 15);
 		panel.add(labelFilename);
 
 		label1 = new JLabel("已选择的文件");
-		label1.setBounds(95, 134, 93, 15);
+		label1.setBounds(10, 57, 93, 15);
 		panel.add(label1);
 		
 		Btnlogin = new JButton("登陆");
-		Btnlogin.setBounds(95, 248, 93, 23);
+		Btnlogin.setBounds(10, 82, 93, 23);
 		panel.add(Btnlogin);
 		
 		Btnlogin.addActionListener(new ActionListener() {
@@ -82,7 +82,7 @@ public class FtpFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser chooser = new JFileChooser();
-				chooser.showDialog(FtpFrame.this, "确定");
+				chooser.showDialog(ClientFrame.this, "确定");
 
 				file = chooser.getSelectedFile();
 				labelFilename.setText(file.getName());

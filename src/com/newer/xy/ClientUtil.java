@@ -1,17 +1,26 @@
 package com.newer.xy;
 
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import com.sun.xml.internal.messaging.saaj.packaging.mime.util.OutputUtil;
+
 public class ClientUtil {
 	
 	private String address = "127.0.0.1";
-	private int port ;
+	private int port = 9000 ;
 	private Socket socket;
 	
 
@@ -49,24 +58,34 @@ public class ClientUtil {
 
 	public  void login () throws 
 	UnknownHostException, IOException{
-		Socket socket = new Socket(address,port);	
+		socket = new Socket(address,port);	
 	}
+	
 	public void upLoadFile (File file,String MD5){
 				
 		try {
-			FileReader reader = new FileReader(file); 
-			PrintWriter pw=new PrintWriter(socket.getOutputStream());
+			
+//			BufferedReader reader = new BufferedReader(new 
+//				InputStreamReader(new FileInputStream(file)));
+			
+			BufferedInputStream inputStream = new BufferedInputStream(
+					new FileInputStream(file));
+			
+			OutputStream outputStream = socket.getOutputStream();
 			
 			//发送文件的MD5值
-			pw.write(MD5);
+			outputStream.write(MD5.getBytes());
 			
-			char[] bufffer = new char[2048];
+			byte[] bytes = new byte[1024*16];
+//			int length = inputStream.read(bytes,0,bytes.length);
+			int length ;
 			
-			if(reader.read(bufffer) != -1){
-				pw.write(bufffer);
+			while((length=inputStream.read(bytes)) != -1){
+				outputStream.write(bytes, 0, length);
 			}
-			reader.close();
-			pw.close();
+			
+			inputStream.close();
+			outputStream.close();
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

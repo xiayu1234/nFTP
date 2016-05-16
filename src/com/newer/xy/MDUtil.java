@@ -13,6 +13,11 @@ import java.util.Arrays;
  *
  */
 public class MDUtil {
+	
+	
+	
+	
+	private static String m;
 	/**
 	 * 获得文件的 MD5值
 	 * 
@@ -33,7 +38,8 @@ public class MDUtil {
 		try {
 			MessageDigest md = MessageDigest.getInstance(algorithm);
 			
-			byte[] data = "".getBytes();
+			String fileName = file.getName();
+			byte[] data = fileName.getBytes();
 			byte[] result = md.digest(data);
 			
 //			System.out.println(result.length);
@@ -41,15 +47,14 @@ public class MDUtil {
 			
 			//字节数组转换为十六进制数
 			BigInteger b = new BigInteger(1, result);
-			System.out.println(b.toString());
 			//整数转换为字符串：数值系统
-			String m = b.toString(16);
-//			System.out.println(m);
-			return m;
+			m = b.toString(16);
+			System.out.println(m);
+			
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return m;
 	}
 		
 }
