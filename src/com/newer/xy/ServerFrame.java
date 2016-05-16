@@ -6,13 +6,16 @@ import javax.swing.JTextField;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-
 import javax.swing.JButton;
 
 public class ServerFrame extends JFrame {
@@ -70,17 +73,29 @@ public class ServerFrame extends JFrame {
 					serverSocket = new ServerSocket(port);
 					System.out.println("服务器启动");
 					socket = serverSocket.accept();
-					BufferedReader br = new BufferedReader(new 
-					InputStreamReader(socket.getInputStream()));
-					String MD5 = br.readLine();
-					PrintWriter pw = new PrintWriter("F://" + MD5);
-					char[] buffer = new char[2048];
-					while(br != null){
-						br.read(buffer);
+					
+					BufferedInputStream inputStream = new BufferedInputStream(
+							socket.getInputStream());
+					
+					//读取存放MD5值的字节数组
+					byte[] MD5Bytes = new byte[1024]; 
+					int MD5Length =	inputStream.read();
+					
+					String MD5 = new String(MD5Bytes, 0, MD5Length);
+					
+					System.out.println(MD5);
+					BufferedOutputStream pw = new BufferedOutputStream(new
+							FileOutputStream(new File("F://test")));
+					
+					
+					byte[] buffer = new byte[2048];
+					int i = inputStream.read(buffer);
+					while(i != -1){
+						i = inputStream.read(buffer);
 						pw.write(buffer);
 					}
-					br.close();
-					pw.close();
+					inputStream.close();
+					pw.flush();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

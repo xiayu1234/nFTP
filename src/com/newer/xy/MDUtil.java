@@ -41,7 +41,7 @@ public class MDUtil {
 			
 			//字节数组转换为十六进制数
 			BigInteger b = new BigInteger(1, result);
-			System.out.println(b.toString());
+//			System.out.println(b.toString());
 			//整数转换为字符串：数值系统
 			String m = b.toString(16);
 //			System.out.println(m);
