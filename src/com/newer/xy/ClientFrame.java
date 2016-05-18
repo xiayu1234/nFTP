@@ -95,7 +95,7 @@ public class ClientFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				clientUtil.upLoadFile(file, MD5);
+				ClientUtil.upLoadFile(file, MD5);
 			}
 		});
 
