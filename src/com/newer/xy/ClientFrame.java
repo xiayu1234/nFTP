@@ -18,11 +18,11 @@ public class ClientFrame extends JFrame {
 	private JPanel panel;
 	private JButton choseBtn;
 	private JButton sendBtn;
-	File file;
 	private JLabel labelFilename;
 	private JLabel label1;
-	String MD5 = "null";
 	private JButton Btnlogin;
+	String MD5 = "null";
+	File file;
 	
 	
 	ClientUtil clientUtil = new ClientUtil();
@@ -68,7 +68,7 @@ public class ClientFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					clientUtil.login();
+					clientUtil.login("127.0.0.1",9000);
 					System.out.println("客户端已经登陆");
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
@@ -82,11 +82,13 @@ public class ClientFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser chooser = new JFileChooser();
+				//设置chooser可以选择文件和目录
+				chooser.setFileSelectionMode(chooser.FILES_AND_DIRECTORIES);
 				chooser.showDialog(ClientFrame.this, "确定");
 
 				file = chooser.getSelectedFile();
 				labelFilename.setText(file.getName());
-				MD5 = MDUtil.getMD5(file);
+				MD5 = FileUtil.getMD5(file);
 
 			}
 		});

@@ -1,5 +1,8 @@
 package com.newer.xy;
 
+/**
+ * 客户端工具类	封装客户端的各种操作
+ */
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -18,60 +21,35 @@ import com.sun.xml.internal.messaging.saaj.packaging.mime.util.OutputUtil;
 
 public class ClientUtil {
 
-	private String address = "127.0.0.1";
-	private int port = 9000;
 	private static Socket socket;
 
-	/**
-	 * @return the address
-	 */
-	public String getAddress() {
-		return address;
-	}
-
-	/**
-	 * @param address
-	 *            the address to set
-	 */
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	/**
-	 * @return the port
-	 */
-	public int getPort() {
-		return port;
-	}
-
-	/**
-	 * @param port
-	 *            the port to set
-	 */
-	public void setPort(int port) {
-		this.port = port;
-	}
-
-	public void login() throws UnknownHostException, IOException {
+	public void login(String address, int port) throws UnknownHostException, IOException {
 		socket = new Socket(address, port);
 	}
 
+	/**
+	 * 往服务器发送文件
+	 * 
+	 * @param file
+	 *            要发送的文件
+	 * @param MD5
+	 *            发送文件的 MD5 值
+	 */
 	public static void upLoadFile(File file, String MD5) {
 
 		try {
 
-			// BufferedReader reader = new BufferedReader(new
-			// InputStreamReader(new FileInputStream(file)));
-			
-			String fileName=file.getName();
-		    String prefix="." + fileName.substring(fileName.lastIndexOf(".")+1);
+			// 获得文件拓展名
+			String fileName = FileUtil.getFilename(file, MD5);
+//			String fileName = file.getName();
+//			String prefix = "." + fileName.substring(fileName.lastIndexOf(".") + 1);
+//			String newFileName = MD5 + prefix;
 
 			BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(file));
-
 			OutputStream outputStream = socket.getOutputStream();
-			String newFileName = MD5 + prefix;
+			
 			// 发送文件的MD5值
-			outputStream.write(newFileName.getBytes());
+			outputStream.write(fileName.getBytes());
 
 			byte[] bytes = new byte[1024 * 16];
 			// int length = inputStream.read(bytes,0,bytes.length);
@@ -89,6 +67,16 @@ public class ClientUtil {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * 往服务器发送文件夹
+	 * 
+	 * @param file
+	 *            要发送的文件夹
+	 * @param MD5
+	 *            发送文件夹的 MD5 值
+	 */
+	public static void uploadDir(File file, String MD5) {
 
-	
+	}
+
 }
